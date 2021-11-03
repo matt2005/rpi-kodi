@@ -39,12 +39,14 @@ services:
       - /dev/vchiq:/dev/vchiq
     volumes:
       - /home/pi/kodi/home:/home/kodi
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
+      - '/etc/timezone:/etc/timezone:ro'
+      - '/etc/localtime:/etc/localtime:ro'
+      - '/var/run/dbus:/var/run/dbus'
     tmpfs:
       - /tmp
     environment:
       - PULSE_SERVER=127.0.0.1
+	  - LD_LIBRARY_PATH=/opt/vc/lib
 ```
 WARNING: it requires the --privileged flag which is risky. Please let me know if you have an idea how to remove it.
 
