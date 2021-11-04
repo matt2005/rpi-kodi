@@ -99,10 +99,9 @@ RUN sudo apt-get install python-pip python-crypto build-essential python-all-dev
     rm -rf /var/lib/apt/lists/*
 
 # Use patched glibc that widevine is working
-ADD /wagnerch-buster-ppa.key /tmp/wagnerch-buster-ppa.key
 ADD /wagnerch-buster-ppa.list /etc/apt/sources.list.d/wagnerch-buster-ppa.list
-RUN apt-key add /tmp/wagnerch-buster-ppa.key && \
-    apt-get update                           && \
+RUN wget -qO - https://wagnerch.github.io/ppa/buster/KEY.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/wagnerch-buster-ppa-keyring.gpg && \
+    apt-get update && \
     apt-get install --only-upgrade libc6
 
 RUN groupadd -g 9002 kodi && useradd -u 9002 -r -g kodi kodi && usermod -a -G video kodi

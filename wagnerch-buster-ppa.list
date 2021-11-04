@@ -1,1 +1,1 @@
-deb https://wagnerch.github.io/ppa/buster ./
+deb [signed-by=/usr/share/keyrings/agnerch-buster-ppa-keyring.gpg] https://wagnerch.github.io/ppa/buster ./
