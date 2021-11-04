@@ -23,15 +23,10 @@ FROM balenalib/rpi-raspbian:latest
 # https://github.com/ehough/docker-nfs-server/pull/3#issuecomment-387880692
 ARG DEBIAN_FRONTEND=noninteractive
 
-# install the team-xbmc ppa
+
 RUN apt-get update                                                        && \
-    apt-get -y purge openssl                                              && \
-    apt-get -y --purge autoremove                                         && \
-    apt-get dist-upgrade                                                  && \
-# Bugfix for: installed kodi package post-installation script subprocess returned error exit status 1
-# either install udev or make the required directory 
     sudo apt-get install uuid-dev                                         && \
-#    mkdir -p /etc/udev/rules.d
+    mkdir -p /etc/udev/rules.d
     rm -rf /var/lib/apt/lists/*                                           
 
 # besides kodi, we will install a few extra packages:
@@ -85,18 +80,7 @@ RUN packages="                                               \
     pulseaudio                                               \
     libnss3                                                  \
     tzdata"                                               && \
-                                                             \
-    apt-get update                                        && \
     apt-get install -y $packages                          
-
-# Add python for netflix plugin
-RUN sudo apt-get install python-pip python-crypto build-essential python-all-dev                   \
-                         python-setuptools python-wheel python-crypto-dbg                          \
-                         python-crypto-doc python-pip-whl                                       && \
-    pip install pycryptodomex                                                                   && \
-    ln -s /usr/lib/python2.7/dist-packages/Crypto /usr/lib/python2.7/dist-packages/Cryptodome   && \
-    apt-get -y --purge autoremove                                                               && \
-    rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 9002 kodi && useradd -u 9002 -r -g kodi kodi && usermod -a -G video kodi
 
