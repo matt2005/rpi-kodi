@@ -26,7 +26,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update                                                        && \
     sudo apt-get install uuid-dev                                         && \
-    mkdir -p /etc/udev/rules.d
+    mkdir -p /etc/udev/rules.d                                            && \
     rm -rf /var/lib/apt/lists/*                                           
 
 # besides kodi, we will install a few extra packages:
