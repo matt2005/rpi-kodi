@@ -89,20 +89,11 @@ RUN packages="                                               \
     apt-get update                                        && \
     apt-get install -y $packages                          
 
-# Add python for netflix plugin
-RUN sudo apt-get install python-pip python-crypto build-essential python-all-dev                   \
-                         python-setuptools python-wheel python-crypto-dbg                          \
-                         python-crypto-doc python-pip-whl                                       && \
-    pip install pycryptodomex                                                                   && \
-    ln -s /usr/lib/python2.7/dist-packages/Crypto /usr/lib/python2.7/dist-packages/Cryptodome   && \
-    apt-get -y --purge autoremove                                                               && \
-    rm -rf /var/lib/apt/lists/*
-
 # Use patched glibc that widevine is working
 ADD /wagnerch-buster-ppa.list /etc/apt/sources.list.d/wagnerch-buster-ppa.list
 RUN wget -qO - https://wagnerch.github.io/ppa/buster/KEY.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/wagnerch-buster-ppa-keyring.gpg && \
-    apt-get update && \
-    apt-get install --only-upgrade libc6
+    apt-get update
+RUN apt-get install --only-upgrade libc6
 
 RUN groupadd -g 9002 kodi && useradd -u 9002 -r -g kodi kodi && usermod -a -G video kodi
 
